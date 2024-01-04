@@ -7,18 +7,24 @@ export function Header(){
   const {signOut} = useContext(AuthContext);
 
   return(
-    <header className="h-2">
-      <div className="flex justify-between items-center ">
+    <header className="h-20 my-0 mx-auto max-w-7xl">
+      <div className="flex mx-20 my-7 justify-between items-center ">
       <Link href="/dashboard">
         <img src="/logo.svg" width={190} height={60} />
       </Link>
-      <nav className="flex justify-center items-center gap-3
+      <nav className="flex justify-center items-center gap-9
                       text-white">
-        <Link href="/categoria">Categoria</Link>
-        <Link href="/product">Cardápio</Link>
-        <button
+        <Link href="/category"
+              className="hover:text-ciano-200">
+                    Categoria
+        </Link>
+        <Link href="/product"
+              className="hover:text-ciano-200">
+                Cardápio
+        </Link>
+        <button className="text-white hover:text-ciano-700"
               onClick={signOut}>
-          <SignOut size={24} color="white" />
+          <SignOut size={24} />
         </button>
       </nav>
       </div>
