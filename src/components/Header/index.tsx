@@ -9,7 +9,7 @@ export function Header(){
   return(
     <header className="h-20 my-0 mx-auto max-w-7xl">
       <div className="flex mx-20 my-7 justify-between items-center ">
-      <Link href="/dashboard">
+      <Link href="/dashboard" title="Painel de Pedidos">
         <img src="/logo.svg" width={190} height={60} />
       </Link>
       <nav className="flex justify-center items-center gap-9
@@ -22,7 +22,7 @@ export function Header(){
               className="hover:text-ciano-200">
                 Cardápio
         </Link>
-        <button className="text-white hover:text-ciano-700"
+        <button className="text-white hover:text-ciano-700 hover:scale-110"
               onClick={signOut}>
           <SignOut size={24} />
         </button>

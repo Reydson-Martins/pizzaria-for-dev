@@ -3,7 +3,7 @@ import Head from "next/head"
 import { FormEvent, useState } from "react"
 import {setupAPIClient} from '@/services/api'
 import { toast } from "react-toastify"
-import {canSSRAuth} from '@/utils/canSSRAuth'
+import {canSSRAuth} from '@/utils/canSSRAuth' 
 
 export default function Category(){
 
@@ -31,7 +31,7 @@ export default function Category(){
     <div className="max-w-3xl my-16 mx-auto px-8 flex flex-col ">
       
       <main>
-        <h1 className="text-white text-5xl font-bold ">Nova Categoria</h1>
+        <h1 className="text-white text-4xl font-bold ">Nova Categoria</h1>
 
         <form onSubmit={handleRegist}
               className="flex flex-col my-4 gap-5" >
