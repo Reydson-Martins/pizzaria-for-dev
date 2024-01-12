@@ -42,23 +42,29 @@ export type OrderItemProps = {
 
 export default function Dashboard({orders}:OrderProps){
 
- // console.log(orders)
-  const [order, setOrder] = useState (orders || [])
+ //console.log(orders)
+  const [orderList, setOrder] = useState (orders || [])
 
  const [modalItem, setModalItem] = useState<OrderItemProps[]>()
  const [modalVisible, setModalVisible] = useState(false)
+
  function handleCloseModal(){
   setModalVisible(false)
+  
  }
  async function handleOpenDetail (id: string) {
+console.log(id)
     const apiClient = setupAPIClient();
     const response = await apiClient.get('/order/detail', {
       params:{
-        order: id
+        order_id: id
       }
     })
 
+    
     setModalItem(response.data)
+    console.log(response)
+    
     setModalVisible(true)
   }
 
@@ -82,7 +88,7 @@ Modal.setAppElement('#__next');
       </div>
 
       <article className=' my-4 flex flex-col gap-4'>
-        {order.map(item => {
+        {orderList.map(item => {
           return(
             <section key={item.id} className=' h-[3.75rem] flex bg-input rounded' >
             <button className=' bg-transparent flex gap-4 items-center'
@@ -112,11 +118,12 @@ export const getServerSideProps = canSSRAuth(async (context) => {
 
   const apiClient = setupAPIClient(context);
   const responseOrders = await apiClient.get('/orders');
-  
+  //console.log(responseOrders.data)
 
   return {
   props:{
     orders: responseOrders.data
+    
   }
 }
 })
