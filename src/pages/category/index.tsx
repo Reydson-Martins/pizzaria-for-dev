@@ -22,14 +22,14 @@ export default function Category(){
   async function handleRegist(event: FormEvent){
     console.log(category);
  
-   event.preventDefault();
+  // event.preventDefault()
 
     const apiClient = setupAPIClient();
     await apiClient.post('/category',{
       name: category
     })
     toast.success("Categoria Cadastrada")
-    reset();
+   reset();
     //setName('')
   }
   return (
