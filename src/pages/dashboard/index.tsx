@@ -43,7 +43,7 @@ export type OrderItemProps = {
 export default function Dashboard({orders}:OrderProps){
 
  //console.log(orders)
-  const [orderList, setOrder] = useState (orders || [])
+  const [orderList, setOrderList] = useState (orders || [])
 
  const [modalItem, setModalItem] = useState<OrderItemProps[]>()
  const [modalVisible, setModalVisible] = useState(false)
@@ -53,7 +53,7 @@ export default function Dashboard({orders}:OrderProps){
   
  }
  async function handleOpenDetail (id: string) {
-console.log(id)
+//console.log(id)
     const apiClient = setupAPIClient();
     const response = await apiClient.get('/order/detail', {
       params:{
@@ -63,10 +63,27 @@ console.log(id)
 
     
     setModalItem(response.data)
-    console.log(response)
+    //console.log(response)
     
     setModalVisible(true)
   }
+
+  async function handleFinishItem(id:string) {
+    const apiClient = setupAPIClient();
+    await apiClient.put('/order/compleat',{
+      order_id: id,
+    })
+
+const response = await apiClient.get('/orders')
+setOrderList(response.data)
+    handleCloseModal()
+  }
+
+  async function handleRefreshList(){
+    const apiClient = setupAPIClient();
+    const response = await apiClient.get('/orders')
+    setOrderList(response.data)
+  }  
 
 Modal.setAppElement('#__next');
 
@@ -83,10 +100,14 @@ Modal.setAppElement('#__next');
         <button className='bg-transparent'>
             <ArrowsClockwise size={24} weight='fill'
                             className='text-ciano-500 
-                                      hover:text-ciano-500 hover:scale-110' />
+                                      hover:text-ciano-500 hover:scale-110'
+                            onClick={handleRefreshList} />
         </button>
       </div>
-
+{}
+      {orderList.length === 0 && (
+  <span className='text-white'>Sem Pedidos ...</span>
+)}
       <article className=' my-4 flex flex-col gap-4'>
         {orderList.map(item => {
           return(
@@ -96,6 +117,7 @@ Modal.setAppElement('#__next');
             >
               <div className=' h-[3.75rem] w-2 rounded-l bg-ciano-500'></div>
               <span className='text-title font-bold text-2xl'>Mesa - {item.table}</span>
+              
             </button>
           </section>
           )
@@ -107,7 +129,9 @@ Modal.setAppElement('#__next');
       <ModalOrder 
       isOpen={modalVisible}
       onRequestClose={handleCloseModal}
-      order={modalItem} />
+      order={modalItem}
+      handleFinishOrder={handleFinishItem}
+      />
     )}
     </div>
     </>

@@ -113,7 +113,7 @@ setCategorySelected(e.target.value)
                  />
             )}
            
-            
+          
           </label>
           <select className="bg-input text-white rounded p-4"
                   value={categorySelected} onChange={handleSelectedCategory}>
@@ -151,7 +151,7 @@ setCategorySelected(e.target.value)
           </button>
         </form>
       </main>
-    </div>    
+    </div>
     </>
   )
 }

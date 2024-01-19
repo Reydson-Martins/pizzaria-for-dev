@@ -7,7 +7,7 @@ export function setupAPIClient(ctx = undefined) {
 let cookies = parseCookies(ctx);
 
 const api = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'https://pizzaria-pg.onrender.com',
   headers: {
     Authorization: `Bear ${cookies['@pizzafordev.token']}`
   }

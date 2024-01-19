@@ -4,22 +4,33 @@ import { FormEvent, useState } from "react"
 import {setupAPIClient} from '@/services/api'
 import { toast } from "react-toastify"
 import {canSSRAuth} from '@/utils/canSSRAuth' 
+import {useForm} from "react-hook-form"
 
 export default function Category(){
 
-  const [name, setName] = useState('')
+
+
+  const {register, handleSubmit, watch, reset, formState:{errors}} = useForm();
+  function sumbitConsole (category: any) {
+    console.log(category);
+    reset();
+  };
+
+  const category = watch ('category')
+  const isSubmitDisabled = !category;
+ // const [name, setName] = useState('')
   async function handleRegist(event: FormEvent){
-    event.preventDefault();
-    if(name === ''){
-      return;
-    }
+    console.log(category);
+ 
+   event.preventDefault();
+
     const apiClient = setupAPIClient();
     await apiClient.post('/category',{
-      name: name
+      name: category
     })
     toast.success("Categoria Cadastrada")
-
-    setName('')
+    reset();
+    //setName('')
   }
   return (
     <>
@@ -33,15 +44,23 @@ export default function Category(){
       <main>
         <h1 className="text-white text-4xl font-bold ">Nova Categoria</h1>
 
-        <form onSubmit={handleRegist}
+        <form onSubmit={handleSubmit(handleRegist)}
               className="flex flex-col my-4 gap-5" >
           <input type="text"
-                placeholder="Digite o nome para a nova categoria" 
-                className="bg-input text-white p-4 border-none rounded"
-                value={name}
-                onChange={(e) => setName(e.target.value)}/>
+                placeholder="DIGITE UMA  CATEGORIA" 
+                className="bg-input text-white p-4 border-none rounded
+                            focus:ring-1 focus:ring-ciano-200"
+                {...register("category", {required: true, pattern: /[A-Z]/,})}
+                // defaultValue=""{...register("category")}
+               />
+               {errors.category?.type === "pattern" && 
+                  <p className="text-red-900">Digite  a categoria em Caixa  Alta</p>
+                }
           <button type="submit"
-                   className="bg-ciano-500 text-title p-4 border-none rounded">
+                  disabled = {isSubmitDisabled}
+                   className="bg-ciano-500 text-title p-4 border-none rounded
+                              hover:bg-ciano-200
+                   disabled:bg-ciano-700 disabled:cursor-not-allowed">
             Cadastrar
           </button>
         </form>
